@@ -12,7 +12,7 @@ acoes = [
 
 # Função para baixar os dados
 def obter_dados(acao):
-    dados = yf.download(acao, interval="1d")
+    dados = yf.download(acao, interval="1d", end="2024-9-25")
     dados.reset_index(inplace = True)
     return pl.DataFrame(dados)
 
@@ -24,7 +24,7 @@ conn = connection.connection()#.create_connection()
 for acao in acoes:
     print(f"Baixando dados para: {acao}")
     dados = obter_dados(acao)
-    
-    conn.insert_dataframe_in_database('raw.acoes',dados, 'replace')
+    dados = dados.with_columns(pl.lit(acao).alias('ticker')) 
+    conn.insert_dataframe_in_database('raw.acoes',dados, 'append')
 
 print("Dados importados e salvos no banco de dados com sucesso!")

@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+import polars as pl
 from polars import DataFrame
 
 class connection:
@@ -44,3 +45,11 @@ class connection:
         
         except Exception as err:
             print(err)
+
+    def read_dataframe(self, query:str):
+
+        connection = self.conn
+        try:
+            return pl.read_database_uri(query=query, uri=connection)
+        except Exception as err:
+            print(err)  
