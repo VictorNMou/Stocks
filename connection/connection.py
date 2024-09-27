@@ -21,7 +21,7 @@ class connection:
         database =database[0]
         user = user[0]
 
-        conn = f"postgresql://admin:Venezia18@localhost:5432/database"
+        conn = f"postgresql://{user}:{password}@{host}:{port}/{database}"
 
         return conn
     
